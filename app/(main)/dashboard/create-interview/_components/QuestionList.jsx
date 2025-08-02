@@ -8,7 +8,7 @@ import { supabase } from "@/services/supabseClient";
 import { v4 as uuidv4 } from "uuid";
 import { userUser } from "@/app/Provider";
 
-function QuestionList({ formData }) {
+function QuestionList({ formData, onCreateLink }) {
   const [loading, setLoading] = useState(true);
   const [questionList, setQuestionList] = useState();
   const { user } = userUser();
@@ -118,9 +118,10 @@ function QuestionList({ formData }) {
   //   }
   // };
 
+  // Sending All data to Interviews table in supabase
   const onFinish = async () => {
     setSaveLoading(true);
-    const interviewId = uuidv4();
+    const interview_id = uuidv4();
     const { data, error } = await supabase
       .from("Interviews")
       .insert([
@@ -128,13 +129,14 @@ function QuestionList({ formData }) {
           ...formData,
           questionList: questionList,
           userEmail: user?.email,
-          interview_id: interviewId,
+          interview_id: interview_id,
         },
       ])
       .select();
     setSaveLoading(false);
     console.log(data);
     console.log(error);
+    onCreateLink(interview_id);
   };
 
   return (
@@ -160,7 +162,8 @@ function QuestionList({ formData }) {
 
       <div className="flex justify-end mt-10">
         <Button onClick={() => onFinish()} disabled={saveLoading}>
-          {saveLoading && <Loader2Icon className="animate-spin" />} Finish
+          {saveLoading && <Loader2Icon className="animate-spin" />} Create
+          Interview Link & Finish
         </Button>
       </div>
     </div>

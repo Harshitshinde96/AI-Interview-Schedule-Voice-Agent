@@ -6,12 +6,13 @@ import React, { useState } from "react";
 import FormContainer from "./_components/FormContainer";
 import QuestionList from "./_components/QuestionList";
 import { toast } from "sonner";
+import InterviewLink from "./_components/InterviewLink";
 
 function CreateInterview() {
   const router = useRouter();
   const [step, setStep] = useState(1);
-
   const [formData, setFormData] = useState();
+  const [interviewId, setInterviewId] = useState();
   const onHandleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -23,13 +24,18 @@ function CreateInterview() {
   const onGoToNext = () => {
     if (
       !formData?.jobPosition ||
-      !formData?.jobDescription ||                     
+      !formData?.jobDescription ||
       !formData?.duration ||
       !formData?.type
     ) {
       toast("Please Enter All Details");
       return;
     }
+    setStep(step + 1);
+  };
+
+  const onCreateLink = (interview_id) => {
+    setInterviewId(interview_id);
     setStep(step + 1);
   };
   return (
@@ -45,7 +51,12 @@ function CreateInterview() {
           GoTONext={() => onGoToNext()}
         />
       ) : step == 2 ? (
-        <QuestionList formData={formData} />
+        <QuestionList
+          formData={formData}
+          onCreateLink={(interview_id) => onCreateLink(interview_id)}
+        />
+      ) : step == 3 ? (
+        <InterviewLink interview_id={interviewId} formData={formData} />
       ) : null}
     </div>
   );
