@@ -4,7 +4,7 @@ import React from "react";
 
 function CreateOptions() {
   return (
-    <div className="grid grid-cols-2 gap-5">
+    <div className="grid grid-cols-2 gap-5 mt-5">
       <Link
         href={"/dashboard/create-interview"}
         className="bg-white border border-grey-200 rounded-lg p-5 cursor-pointer"

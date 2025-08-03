@@ -18,9 +18,9 @@ export const SidebarOptions = [
     path: "/dashboard",
   },
   {
-    name: "Schedule Interview",
+    name: "Scheduled Interview",
     icon: LucideCalendarSearch,
-    path: "/schedule-interview",
+    path: "/scheduled-interview",
   },
   {
     name: "All Interview",
@@ -84,4 +84,33 @@ format: interviewQuestions=[
 ...
 }]
 🎯 The goal is to create a structured, relevant, and time-optimized interview plan for a {{jobTitle}} role.
+`;
+
+export const FEEDBACK_PROMPT = `{{conversation}}  
+Based on this Interview Conversation between assistant and user, give me feedback for the user interview.  
+Give me a rating out of 10 for:  
+- Technical Skills  
+- Communication  
+- Problem Solving  
+- Experience  
+  
+Also give me:  
+- A summary in 3 lines about the interview  
+- One line to let me know whether the candidate is recommended for hire or not with a message  
+  
+Return the response in the following JSON format:
+
+{
+  "feedback": {
+    "rating": {
+      "technicalSkills": 5,
+      "communication": 6,
+      "problemSolving": 4,
+      "experience": 7
+    },
+    "summary": "<in 3 lines>",
+    "recommendation": "<Yes/No>",
+    "recommendationMsg": "<message>"
+  }
+}
 `;

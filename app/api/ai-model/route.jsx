@@ -24,12 +24,6 @@ export async function POST(req) {
     console.log(completion.choices[0].message);
 
     return NextResponse.json(completion.choices[0].message);
-    // Ensure we always return a consistent format
-    // return NextResponse.json({
-    //   success: true,
-    //   content: completion.choices[0]?.message?.content || "",
-    //   error: null,
-    // });
   } catch (error) {
     console.error("API Error:", error);
     return NextResponse.json(

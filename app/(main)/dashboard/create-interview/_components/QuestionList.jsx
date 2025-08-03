@@ -33,12 +33,13 @@ function QuestionList({ formData, onCreateLink }) {
 
       let content = result.data.content;
 
-      // Handle both cases - with or without markdown code blocks
-      if (content.startsWith("```json")) {
-        content = content.replace("```json", "").replace("```", "");
+      // Extract JSON from the response (handles cases where there's extra text)
+      const jsonMatch = content.match(/```json([\s\S]*?)```/);
+      if (jsonMatch) {
+        content = jsonMatch[1].trim();
       }
 
-      // Parse the content directly if it's already JSON
+      // Parse the JSON content
       const parsedContent = JSON.parse(content);
 
       // Handle both possible response structures
@@ -51,72 +52,6 @@ function QuestionList({ formData, onCreateLink }) {
       setLoading(false);
     }
   };
-
-  // const generateQuestionList = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const { data } = await axios.post("/api/ai-model", formData);
-
-  //     if (!data?.content) throw new Error(data?.error || "No content received");
-
-  //     const extractQuestions = (content) => {
-  //       // Clean and normalize the content
-  //       const cleaned = content.replace(/```(json)?/g, "").trim();
-
-  //       // Try to find array-like patterns
-  //       const arrayPatterns = [
-  //         /interviewQuestions\s*=\s*(\[.*?\])/s, // interviewQuestions=[...]
-  //         /(\[.*?\])/s, // Just the array
-  //       ];
-
-  //       for (const pattern of arrayPatterns) {
-  //         const match = cleaned.match(pattern);
-  //         if (match) {
-  //           try {
-  //             // Try parsing directly first
-  //             const parsed = JSON.parse(match[1]);
-  //             return Array.isArray(parsed)
-  //               ? parsed
-  //               : parsed?.interviewQuestions || [];
-  //           } catch {
-  //             // If direct parse fails, try fixing common JSON issues
-  //             try {
-  //               const fixed = match[1]
-  //                 .replace(/(\w+)\s*:/g, '"$1":') // Add quotes to keys
-  //                 .replace(/'/g, '"') // Single to double quotes
-  //                 .replace(/,\s*]/g, "]"); // Remove trailing commas
-  //               return JSON.parse(fixed);
-  //             } catch {}
-  //           }
-  //         }
-  //       }
-
-  //       // Fallback - try parsing the entire content as JSON
-  //       try {
-  //         const parsed = JSON.parse(cleaned);
-  //         return Array.isArray(parsed)
-  //           ? parsed
-  //           : parsed?.interviewQuestions || parsed?.questions || [];
-  //       } catch {
-  //         throw new Error("Couldn't parse questions from response");
-  //       }
-  //     };
-
-  //     const questions = extractQuestions(data.content);
-  //     setQuestionList(questions);
-  //   } catch (error) {
-  //     console.error("Generation error:", error);
-  //     toast.error(
-  //       error.response?.status === 429
-  //         ? "API limit reached - try again later"
-  //         : error.message.includes("Rate limit")
-  //         ? "Daily limit reached"
-  //         : "Failed to generate questions"
-  //     );
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   // Sending All data to Interviews table in supabase
   const onFinish = async () => {
