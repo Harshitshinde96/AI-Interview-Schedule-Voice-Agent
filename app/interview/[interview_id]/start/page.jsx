@@ -199,7 +199,7 @@ Key Guidelines:
           : FINAL_CONTENT;
 
       const { data, error } = await supabase
-        .from("interview-feedback")
+        .from("interview_feedback")
         .insert([
           {
             userName: interviewInfo?.userName,
