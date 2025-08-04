@@ -94,7 +94,7 @@ function InterviewLink({ interview_id, formData }) {
             Back to Dashboard
           </Button>
         </Link>
-        <Link href={"/create-interview"}>
+        <Link href={"/dashboard/create-interview"}>
           <Button>
             <Plus />
             Create New Interview

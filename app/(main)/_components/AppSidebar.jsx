@@ -14,10 +14,11 @@ import { SidebarOptions } from "@/services/Constants";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export function AppSidebar() {
   const path = usePathname();
+  const router = useRouter();
 
   return (
     <Sidebar>
@@ -29,7 +30,11 @@ export function AppSidebar() {
           height={100}
           className="w-[150px]"
         />
-        <Button className="w-full mt-5">
+
+        <Button
+          className="w-full mt-5"
+          onClick={() => router.push("/dashboard/create-interview")}
+        >
           {" "}
           <Plus /> Create New Interview{" "}
         </Button>

@@ -7,12 +7,14 @@ import FormContainer from "./_components/FormContainer";
 import QuestionList from "./_components/QuestionList";
 import { toast } from "sonner";
 import InterviewLink from "./_components/InterviewLink";
+import { userUser } from "@/app/Provider";
 
 function CreateInterview() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState();
   const [interviewId, setInterviewId] = useState();
+  const { user } = userUser();
   const onHandleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -22,6 +24,10 @@ function CreateInterview() {
   };
 
   const onGoToNext = () => {
+    if (user?.credits <= 0) {
+      toast("You have reached your credits limit");
+      return;
+    }
     if (
       !formData?.jobPosition ||
       !formData?.jobDescription ||

@@ -25,7 +25,7 @@ function InterviewCard({ interview, viewDetail = false }) {
   return (
     <div className="p-5 bg-white rounded-lg border">
       <div className="flex items-center justify-between">
-        <div className="h-[40px] w-[40px] bg-primary rounded-full "></div>
+        <div className="h-[30px] w-[30px] bg-primary rounded-full "></div>
         <h2 className="text-sm">
           {moment(interview?.created_at).format("DD MM YYYY")}
         </h2>
@@ -33,7 +33,7 @@ function InterviewCard({ interview, viewDetail = false }) {
       <h2 className="mt-3 font-semibold text-lg">{interview?.jobPosition}</h2>
       <h2 className="mt-2 text-sm flex justify-between text-gray-500">
         {interview?.duration}
-        <span className="text-green-700">
+        <span className="text-[#6C63FF]">
           {interview["interview_feedback"]?.length} Candidates
         </span>
       </h2>

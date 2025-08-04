@@ -16,9 +16,10 @@ function StartInterview() {
   const [vapi] = useState(
     () => new Vapi(process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY)
   );
-  const [activeSpeaker, setActiveSpeaker] = useState(null); // 'ai' or 'user'
+  const [activeSpeaker, setActiveSpeaker] = useState(null);
   const [conversation, setConversation] = useState();
   const conversationRef = useRef();
+  const feedbackGeneratedRef = useRef(false); // Added this line
   const { interview_id } = useParams();
   const router = useRouter();
   const [loading, setLoading] = useState();
@@ -26,55 +27,47 @@ function StartInterview() {
 
   useEffect(() => {
     interviewInfo && startCall();
+    feedbackGeneratedRef.current = false; // Reset on new interview
   }, [interviewInfo]);
 
   useEffect(() => {
     const handleMessage = (message) => {
-      console.log("Message:", message);
       if (message?.conversation) {
         const convoString = JSON.stringify(message.conversation);
-        console.log("Conversation string:", convoString);
         setConversation(convoString);
-        conversationRef.current = convoString; // Store in ref
+        conversationRef.current = convoString;
+      }
+    };
+
+    const handleCallStart = () => toast("Call Connected...");
+    const handleSpeechStart = () => setActiveSpeaker("ai");
+    const handleSpeechEnd = () => setActiveSpeaker("user");
+    const handleCallEnd = () => {
+      if (!feedbackGeneratedRef.current) {
+        feedbackGeneratedRef.current = true;
+        toast("Interview Ended");
+        setActiveSpeaker(null);
+        generateFeedback();
       }
     };
 
     // Set up all event listeners
     vapi.on("message", handleMessage);
-
-    vapi.on("call-start", () => {
-      console.log("Call has started");
-      toast("Call Connected...");
-    });
-
-    vapi.on("speech-start", () => {
-      console.log("Speech has started");
-      setActiveSpeaker("ai");
-    });
-
-    vapi.on("speech-end", () => {
-      console.log("Speech has ended");
-      setActiveSpeaker("user");
-    });
-
-    vapi.on("call-end", () => {
-      console.log("Call has stopped");
-      toast("Interview Ended");
-      setActiveSpeaker(null);
-      generateFeedback();
-    });
+    vapi.on("call-start", handleCallStart);
+    vapi.on("speech-start", handleSpeechStart);
+    vapi.on("speech-end", handleSpeechEnd);
+    vapi.on("call-end", handleCallEnd);
 
     // Cleanup function
     return () => {
       vapi.off("message", handleMessage);
-      vapi.off("call-start", () => console.log("Call start listener removed"));
-      vapi.off("speech-start", () =>
-        console.log("Speech start listener removed")
-      );
-      vapi.off("speech-end", () => console.log("Speech end listener removed"));
-      vapi.off("call-end", () => console.log("Call end listener removed"));
+      vapi.off("call-start", handleCallStart);
+      vapi.off("speech-start", handleSpeechStart);
+      vapi.off("speech-end", handleSpeechEnd);
+      vapi.off("call-end", handleCallEnd);
     };
   }, []);
+
   const startCall = () => {
     let questionList;
     interviewInfo?.interviewData?.questionList.forEach(

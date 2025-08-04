@@ -1,8 +1,12 @@
+"use client";
 import React from "react";
 import { Home, ArrowRight, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const InterviewComplete = () => {
+  const router = useRouter();
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
       {/* Main Content */}
@@ -64,15 +68,22 @@ const InterviewComplete = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-primary-dark shadow-sm transition-colors cursor-pointer">
-              <Home className="mr-2 h-5 w-5" />
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+            <Button
+              className="flex items-center gap-2 px-5 py-5 text-base font-medium"
+              onClick={() => router.push("/dashboard")}
+            >
+              <Home className="h-5 w-5" />
               Return to Homepage
-            </button>
-            <button className="flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-gray-50 border-gray-300 shadow-sm transition-colors cursor-pointer">
+            </Button>
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 px-5 py-5 text-base font-medium bg-white"
+              onClick={() => router.push("/dashboard")}
+            >
               View Other Opportunities
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </button> 
+              <ArrowRight className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </main>
