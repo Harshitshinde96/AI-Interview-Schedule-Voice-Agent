@@ -1,10 +1,10 @@
-import Features from "@/components/features";
 import Hero from "@/components/Hero";
 import { Navbar } from "@/components/navbar";
 import CTABanner from "@/components/cta-banner";
 import Pricing from "@/components/Pricing";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+import Features from "@/components/Features";
 
 export default function Home() {
   return (
