@@ -18,7 +18,7 @@ function WelcomeContainer() {
           src={user?.picture}
           alt="userAvatar"
           width={40}
-          height={50}
+          height={40}
           className="rounded-full"
         />
       )}

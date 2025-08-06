@@ -137,6 +137,7 @@ Key Guidelines:
         ],
       },
     };
+    
     vapi.start(assistantOptions);
   };
 

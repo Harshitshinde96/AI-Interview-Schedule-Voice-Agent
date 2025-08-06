@@ -49,7 +49,8 @@ function InterviewDeatilsContainer({ interviewDetail }) {
         <div className="grid grid-cols-2 gap-3 mt-3">
           {interviewDetail?.questionList.map((item, index) => (
             <h2 key={index} className="text-sm">
-              {index + 1}.{item?.question}
+              {index + 1}.{"  "}
+              {item?.question}
             </h2>
           ))}
         </div>

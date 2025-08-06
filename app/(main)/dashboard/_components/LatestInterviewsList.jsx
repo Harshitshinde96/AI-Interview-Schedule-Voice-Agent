@@ -22,13 +22,15 @@ function LatestInterviewsList() {
       .order("id", { ascending: false })
       .limit(6);
 
-    console.log(Interviews);
+    // console.log(Interviews);
     setInterviewsList(Interviews);
   };
 
   return (
     <div className="my-5">
-      <h2 className="my-3 font-bold text-2xl pl-1">Previously Ceated Interviews</h2>
+      <h2 className="my-3 font-bold text-2xl pl-1">
+        Previously Ceated Interviews
+      </h2>
       {interviewsList?.length == 0 && (
         <div className="p-5 flex flex-col gap-3 items-center bg-white mt-5 rounded-lg">
           <Video className="h-10 w-10 text-primary" />

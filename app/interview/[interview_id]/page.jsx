@@ -59,8 +59,8 @@ function Interview() {
     setLoading(false);
   };
   return (
-    <div className="px-10 md:px-28 lg:px-48 xl:px-70 mt-14 ">
-      <div className="flex flex-col items-center justify-center border rounded-lg bg-white p-7 lg:px-33 xl:px-52 mb-20 pb-12">
+    <div className="px-10 md:px-28 lg:px-48 xl:px-70 mt-14 pb-1">
+      <div className="flex flex-col items-center justify-center border rounded-lg bg-white p-7 lg:px-33 xl:px-52 mb-20 ">
         <Image
           src={"/logo.png"}
           alt="logo"

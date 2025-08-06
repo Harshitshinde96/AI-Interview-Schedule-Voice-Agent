@@ -1,6 +1,7 @@
 "use client";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { supabase } from "@/services/supabseClient";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import React, { useContext, useEffect, useState } from "react";
 
 function Provider({ children }) {
@@ -15,7 +16,7 @@ function Provider({ children }) {
         .select("*")
         .eq("email", user?.email);
 
-      console.log(Users);
+      // console.log(Users);
       //If not then create new user
       if (Users?.length == 0) {
         const { data, error } = await supabase.from("Users").insert([
@@ -33,9 +34,13 @@ function Provider({ children }) {
     });
   };
   return (
-    <UserDetailContext.Provider value={{ user, setUser }}>
-      <div>{children}</div>
-    </UserDetailContext.Provider>
+    <PayPalScriptProvider
+      options={{ clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID }}
+    >
+      <UserDetailContext.Provider value={{ user, setUser }}>
+        <div>{children}</div>
+      </UserDetailContext.Provider>
+    </PayPalScriptProvider>
   );
 }
 

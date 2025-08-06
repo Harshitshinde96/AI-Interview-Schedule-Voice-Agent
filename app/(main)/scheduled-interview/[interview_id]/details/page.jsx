@@ -36,7 +36,7 @@ function InterviewDeatils() {
       .eq("interview_id", interview_id.trim())
       .maybeSingle();
     setInterviewDetail(result);
-    console.log(result);
+    // console.log(result);
   };
   return (
     <div className="mt-5">

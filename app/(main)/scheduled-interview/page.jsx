@@ -27,7 +27,7 @@ function ScheduledInterview() {
       .eq("userEmail", user?.email)
       .order("id", { ascending: false });
 
-    console.log(result);
+    // console.log(result);
     setInterviewList(result);
   };
   return (

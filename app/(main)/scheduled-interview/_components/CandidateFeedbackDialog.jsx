@@ -12,6 +12,17 @@ import { Progress } from "@/components/ui/progress";
 
 function CandidateFeedbackDialog({ candidate }) {
   const feedback = candidate?.feedback?.feedback;
+
+  const averageRating = feedback?.rating
+    ? Math.round(
+        (feedback.rating.technicalSkills +
+          feedback.rating.communication +
+          feedback.rating.problemSolving +
+          feedback.rating.experience) /
+          4
+      )
+    : null;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -40,7 +51,9 @@ function CandidateFeedbackDialog({ candidate }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-primary text-2xl font-bold">9/10</span>
+                  <span className="text-primary text-2xl font-bold">
+                    {averageRating ? `${averageRating}/10` : "N/A"}
+                  </span>
                 </div>
               </div>
 
